@@ -35,16 +35,7 @@ pipeline{
 			}
 			}
 		}
-		stage('fetching image from docker hub'){
-			echo "fetching the docker image from docker hub"
-			steps{
-				docker.withRegistry( '', registryCredential ) {
-				dockerImage.push("${env.BUILD_NUMBER}")
-				dockerImage.push("latest")
-
-			}
-		}
-		}
+		
 
 	}
 }
