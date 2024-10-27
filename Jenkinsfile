@@ -18,21 +18,24 @@ pipeline{
 						dockerImage = docker.build('kashyapgaurav123/train-schedule_${env.BUILD_NUMBER}')
 						dockerImage.inside {
                         		sh 'echo $(curl localhost:8080)'
-                    		}
-						}
+                    						  }
+					}
 			}
 		}
-		stage('Uploading the docker image to docker hub'){
-			steps{
-				docker.withRegistry('https://registry.hub.docker.com', 'docker_hub_login' ) {
-				dockerImage.push('${env.BUILD_NUMBER}')
-				dockerImage.push('latest')
-
-			}
-			}
-		}
-		
-
+		  stage('Push Docker Image') {
+           		 when {
+                		branch 'master'
+            			}
+           		 steps {
+                		script {
+                    			docker.withRegistry('https://registry.hub.docker.com', 'docker_hub_login') 
+					      {
+                        		dockerImage.push("${env.BUILD_NUMBER}")
+                        		dockerImage.push("latest")
+                    				}
+                			}
+            			}
+        		}
 	}
 }
 
