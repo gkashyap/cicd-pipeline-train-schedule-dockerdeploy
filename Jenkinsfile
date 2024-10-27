@@ -1,9 +1,5 @@
 pipeline{
-	environment {
-		registry = "https://registry.hub.docker.com"
-		registryCredential = 'docker_hub_login'
-		dockerImage = ''
-}
+
 	agent any
 	stages{
 
@@ -19,7 +15,7 @@ pipeline{
 			steps{
 				echo "Building the docker container"
 				script {
-						dockerImage = docker.build("getintodevops/hellonode_${env.BUILD_NUMBER}")
+						dockerImage = docker.build("kashyapgaurav123/train-schedule_${env.BUILD_NUMBER}")
 						dockerImage.inside {
                         		sh 'echo $(curl localhost:8080)'
                     		}
@@ -28,7 +24,7 @@ pipeline{
 		}
 		stage('Uploading the docker image to docker hub'){
 			steps{
-				docker.withRegistry(registry, registryCredential ) {
+				docker.withRegistry('https://registry.hub.docker.com', 'docker_hub_login' ) {
 				dockerImage.push("${env.BUILD_NUMBER}")
 				dockerImage.push("latest")
 
