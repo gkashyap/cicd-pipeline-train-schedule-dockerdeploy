@@ -13,9 +13,9 @@ pipeline{
 		stage('Build docker image'){
 
 			steps{
-				echo "Building the docker container"
+				echo 'Building the docker container'
 				script {
-						dockerImage = docker.build("kashyapgaurav123/train-schedule_${env.BUILD_NUMBER}")
+						dockerImage = docker.build('kashyapgaurav123/train-schedule_${env.BUILD_NUMBER}')
 						dockerImage.inside {
                         		sh 'echo $(curl localhost:8080)'
                     		}
@@ -25,8 +25,8 @@ pipeline{
 		stage('Uploading the docker image to docker hub'){
 			steps{
 				docker.withRegistry('https://registry.hub.docker.com', 'docker_hub_login' ) {
-				dockerImage.push("${env.BUILD_NUMBER}")
-				dockerImage.push("latest")
+				dockerImage.push('${env.BUILD_NUMBER}')
+				dockerImage.push('latest')
 
 			}
 			}
