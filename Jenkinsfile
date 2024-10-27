@@ -15,7 +15,7 @@ pipeline{
 			steps{
 				echo 'Building the docker container'
 				script {
-						dockerImage = docker.build('kashyapgaurav123/train-schedule_${env.BUILD_NUMBER}')
+						dockerImage = docker.build('kashyapgaurav123/train-schedule')
 						dockerImage.inside {
                         		sh 'echo $(curl localhost:8080)'
                     						  }
